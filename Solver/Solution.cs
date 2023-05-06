@@ -5,7 +5,7 @@ public class Solution
 {
     public static long solveOne(long ai, long aj)
     {
-        return (ai & aj) ^ (ai | aj);
+        return ai ^ aj;
     }
 
     public static void Main()
@@ -15,7 +15,9 @@ public class Solution
         {
             Console.ReadLine();
             var line = Console.ReadLine();
-            var values = line.Split(new[] { ' ' }).Select(x => long.Parse(x));
+            var values = line.Split(new[] { ' ' }).Select(x => long.Parse(x)).ToList();
+            values.Sort();
+            values.Reverse();
             var result = long.MaxValue;
             long? ai = null;
             foreach (var aj in values)
