@@ -3,11 +3,6 @@ using System.Linq;
 
 public class Solution
 {
-    public static long solveOne(long ai, long aj)
-    {
-        return ai ^ aj;
-    }
-
     public static void Main()
     {
         var t = int.Parse(Console.ReadLine());
@@ -19,16 +14,16 @@ public class Solution
             values.Sort();
             values.Reverse();
             var result = long.MaxValue;
-            long? ai = null;
-            foreach (var aj in values)
+            var enumerator = values.GetEnumerator();
+            long ai = enumerator.Current;
+            long aj, current;
+            while (enumerator.MoveNext())
             {
-                if (ai != null)
+                aj = enumerator.Current;
+                current = ai ^ aj;
+                if (current < result)
                 {
-                    var current = solveOne(ai.Value, aj);
-                    if (current < result)
-                    {
-                        result = current;
-                    }
+                    result = current;
                 }
                 ai = aj;
             }
