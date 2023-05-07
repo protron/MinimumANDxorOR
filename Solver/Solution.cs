@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public class Solution
@@ -10,24 +11,48 @@ public class Solution
         {
             Console.ReadLine();
             var line = Console.ReadLine();
-            var values = line.Split(new[] { ' ' }).Select(x => long.Parse(x)).ToList();
-            values.Sort();
-            values.Reverse();
+            var numberInputs = line
+                .Split(new[] { ' ' })
+                .Select(x => long.Parse(x))
+                .OrderByDescending(x => x);
             var result = long.MaxValue;
-            var enumerator = values.GetEnumerator();
-            long ai = enumerator.Current;
-            long aj, current;
-            while (enumerator.MoveNext())
+            foreach (var pair in GetPairsWithPrevious(numberInputs))
             {
-                aj = enumerator.Current;
-                current = ai ^ aj;
-                if (current < result)
+                var hypotesis = pair.Previous ^ pair.Current;
+                if (hypotesis < result)
                 {
-                    result = current;
+                    result = hypotesis;
                 }
-                ai = aj;
             }
             Console.WriteLine(result);
         }
     }
+
+    public static IEnumerable<(T Previous, T Current)> GetPairsWithPrevious<T>(IEnumerable<T> values)
+    {
+        using var e = values.GetEnumerator();
+        if (!e.MoveNext()) yield break;
+        var previous = e.Current;
+        while (e.MoveNext())
+        {
+            yield return (previous, e.Current);
+            previous = e.Current;
+        }
+    }
+
+    /*
+    public static IEnumerable<(T Previous, T Current)> GetPairsWithPrevious<T>(IEnumerable<T> values)
+        where T : struct
+    {
+        T? previous = null;
+        foreach (var current in values)
+        {
+            if (previous.HasValue)
+            {
+                yield return (previous.Value, current);
+            }
+            previous = current;
+        }
+    }
+    */
 }
