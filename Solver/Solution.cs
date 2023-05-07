@@ -39,20 +39,4 @@ public class Solution
             previous = e.Current;
         }
     }
-
-    /*
-    public static IEnumerable<(T Previous, T Current)> GetPairsWithPrevious<T>(IEnumerable<T> values)
-        where T : struct
-    {
-        T? previous = null;
-        foreach (var current in values)
-        {
-            if (previous.HasValue)
-            {
-                yield return (previous.Value, current);
-            }
-            previous = current;
-        }
-    }
-    */
 }
